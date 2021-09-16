@@ -4,6 +4,7 @@ import 'dom'
 import css from '../../scss/index.scss'
 
 const customStyle: NextModule = {
+  name: 'customStyle',
   shouldInitialize() {
     return true
   },

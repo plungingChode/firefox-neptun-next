@@ -18,9 +18,13 @@ const modules: NextModule[] = [
     return
   }
 
+  const initialized: string[] = []
   for (const md of modules) {
     if (md.shouldInitialize()) {
       md.initialize()
+      initialized.push(md.name)
     }
   }
+  
+  console.info({initialized})
 })()

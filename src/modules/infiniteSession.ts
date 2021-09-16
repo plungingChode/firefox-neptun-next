@@ -38,12 +38,11 @@ function clearTimers() {
 }
 
 const infiniteSession: NextModule = {
+  name: 'infiniteSession',
   shouldInitialize() {
     return isAuthenticated()
   },
   initialize() {
-    console.log('initialize infiniteSession')
-
     keepAlive()
     clearTimers()
   },

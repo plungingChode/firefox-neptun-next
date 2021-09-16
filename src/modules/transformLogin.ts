@@ -253,12 +253,11 @@ function parseLoginForm(table: Element) {
 }
 
 const transformLogin: NextModule = {
+  name: 'transformLogin',
   shouldInitialize() {
     return isPage(NeptunPage.login);
   },
   initialize() {
-    console.info('Initialize transformLogin')
-
     const container = $('.login_center')
 
     transformLoginForm(container)
