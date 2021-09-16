@@ -1,0 +1,71 @@
+:root {
+  --neptun-plain-fill: white;
+  --neptun-plain-text: black;
+
+  --neptun-neutral-text: #555;
+  --neptun-neutral-text-faded: #888;
+  --neptun-neutral-line: #aaa;
+  --neptun-neutral-fill: #ccc;
+
+  --neptun-major-accent-fill: #2489ca;
+  --neptun-major-accent-fill-hover: #1f7dba;
+  --neptun-major-accent-fill-active: #1d70a5;
+  --neptun-major-accent-fill-contrast: #155379;
+  --neptun-major-accent-text: white;
+
+  --neptun-minor-accent-fill: transparent;
+  --neptun-minor-accent-fill-hover: #e1f0fa;
+  --neptun-minor-accent-fill-active: #cbe5f6;
+  --neptun-minor-accent-text: #2489ca;
+  --neptun-minor-accent-text-hover: #1f7dba;
+  --neptun-minor-accent-text-active: #1d70a5;
+}
+
+:root {
+  font-size: 16px;
+  font-family: "Roboto", "DejaVu Sans", sans-serif !important;
+  font-weight: 300;
+  line-height: 1.5;
+}
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+}
+h3,
+p {
+  margin: 0;
+  padding: 0;
+}
+input,
+button {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+a,
+a:visited {
+  text-decoration: none;
+  color: var(--neptun-major-accent-fill);
+
+  &:hover {
+    color: var(--neptun-major-accent-fill-hover);
+    text-decoration: underline;
+    text-decoration-style: solid;
+    text-decoration-thickness: 0.1rem;
+  }
+  &:active {
+    color: var(--neptun-major-accent-fill-active);
+  }
+}
+
+// Main page layout
+#form1 > fieldset {
+  padding: 0;
+  margin: 0;
+  border: none;
+  width: 100%;
+}

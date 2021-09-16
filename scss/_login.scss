@@ -1,0 +1,237 @@
+@use 'variables' as *;
+@use 'sass:math';
+
+$unit-max-width: 800px;
+$unit-border: 0.0625rem solid $major-accent-fill-active;
+
+// Hide unnecessary elements
+#tdIstitute,
+.login_right_side,
+.tr_Footer,
+.info_table_center_container_td {
+  display: none;
+}
+#tableMain {
+  height: 100vh;
+  min-height: 0;
+  width: 100%;
+  background: linear-gradient(147deg, white 0%, #2489ca 100%);
+}
+
+// Common transformed container
+.login-container {
+  width: 90vw;
+  max-width: $unit-max-width;
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: $plain-fill;
+  text-align: start;
+  border: $unit-border;
+  border-radius: 3px;
+
+  h3 {
+    margin-top: 0.5rem;
+  }
+}
+
+// Language selection
+.lang-select button {
+  $height: 1.5rem;
+
+  display: inline-block;
+  height: $height;
+  width: $height * math.div(3, 2);
+  margin-right: 0.5rem;
+  border: none;
+  background-color: transparent;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  opacity: 0.5;
+  cursor: pointer;
+
+  &[data-active="true"] {
+    opacity: 1;
+  }
+
+  &:not([data-active="true"]):hover {
+    opacity: 1;
+    outline: 3px solid $major-accent-fill;
+    outline-offset: 1px;
+  }
+}
+#btnLang_0 {
+  // Hungarian flag
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' id='flag-icon-css-hu' preserveAspectRatio='none' viewBox='0 0 640 480'%3E%3Cg fill-rule='evenodd'%3E%3Cpath fill='%23fff' d='M640 480H0V0h640z'/%3E%3Cpath fill='%23388d00' d='M640 480H0V320h640z'/%3E%3Cpath fill='%23d43516' d='M640 160.1H0V.1h640z'/%3E%3C/g%3E%3C/svg%3E");
+}
+#btnLang_1 {
+  // UK flag
+  background-image: url("data:image/svg+xml,%0A%3Csvg xmlns='http://www.w3.org/2000/svg' id='flag-icon-css-gb' preserveAspectRatio='none' viewBox='0 0 640 480'%3E%3Cpath fill='%23012169' d='M0 0h640v480H0z'/%3E%3Cpath fill='%23FFF' d='M75 0l244 181L562 0h78v62L400 241l240 178v61h-80L320 301 81 480H0v-60l239-178L0 64V0h75z'/%3E%3Cpath fill='%23C8102E' d='M424 281l216 159v40L369 281h55zm-184 20l6 35L54 480H0l240-179zM640 0v3L391 191l2-44L590 0h50zM0 0l239 176h-60L0 42V0z'/%3E%3Cpath fill='%23FFF' d='M241 0v480h160V0H241zM0 160v160h640V160H0z'/%3E%3Cpath fill='%23C8102E' d='M0 193v96h640v-96H0zM273 0v480h96V0h-96z'/%3E%3C/svg%3E%0A");
+}
+#btnLang_2 {
+  // German flag
+  background-image: url("data:image/svg+xml,%0A%3Csvg xmlns='http://www.w3.org/2000/svg' id='flag-icon-css-de' preserveAspectRatio='none' viewBox='0 0 640 480'%3E%3Cpath fill='%23ffce00' d='M0 320h640v160H0z'/%3E%3Cpath d='M0 0h640v160H0z'/%3E%3Cpath fill='%23d00' d='M0 160h640v160H0z'/%3E%3C/svg%3E%0A");
+}
+
+// Login fields
+.login {
+  padding: 1rem;
+  max-width: 500px;
+}
+.login .logo {
+  height: 4rem;
+  margin-top: 1.5rem;
+  background-image: url("App_Themes/Skin_Neptun_Login/Default/Hallgato/login_logo.png");
+  background-position: 50% 0;
+  background-repeat: no-repeat;
+}
+.login .info {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+.login .info span {
+  font-size: 0.8rem;
+
+  &:not(:last-child)::after {
+    content: "•";
+    margin-right: 0.25rem;
+    margin-left: 0.4rem;
+  }
+}
+.login-fields {
+  margin: auto;
+  width: max-content;
+}
+.login-field {
+  display: flex;
+  flex-direction: column;
+  margin-top: 0.5rem;
+}
+#btnSubmit {
+  display: block;
+  margin: 1rem auto 0.5rem auto;
+}
+
+// Abort login link
+.abort_login {
+  display: block;
+  width: 10rem;
+  margin: 0.5rem auto;
+  padding: 0.5rem 1rem;
+  border: 1px solid $minor-accent-text;
+  color: $minor-accent-text;
+  border-radius: 3px;
+  text-decoration: none;
+}
+
+// News
+.news h3 {
+  margin-bottom: 0.5rem;
+}
+.news-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.news-item {
+  padding: 1rem 0.5rem 1rem 0;
+}
+.news-item:first-child {
+  padding-top: 0;
+}
+.news-item:not(:last-child) {
+  border-bottom: 1px solid $neutral-line;
+}
+.news-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  // Subject line
+  a {
+    font-weight: 500;
+  }
+
+  .news-date {
+    flex-shrink: 0;
+    margin-left: 1rem;
+    font-size: 0.75rem;
+  }
+}
+.news-content {
+  margin-top: 0.25rem;
+  hyphens: auto;
+
+  * {
+    font-size: inherit !important;
+  }
+}
+
+// Documents
+.docs {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-bottom: 1rem;
+}
+.docs-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.docs-item {
+  margin-top: 0.5rem;
+  font-weight: 400;
+}
+
+// Links
+.links-list {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+
+  a {
+    position: relative;
+    margin: 0.25rem 0;
+    font-weight: 400;
+
+    &:not(:last-child) {
+      padding-right: 1rem;
+    }
+
+    &:not(:last-child)::after {
+      position: absolute;
+      content: "•";
+      right: 0.35rem;
+    }
+  }
+}
+
+// Waiting animation
+#loginWaitBackground {
+  width: 100vw;
+  position: fixed;
+  height: 100vh;
+  background: #44444488;
+}
+#loginWaitAnimation {
+  background: none !important;
+
+  &::after {
+    content: " ";
+    display: block;
+    width: 100px;
+    height: 100px;
+    margin: 8px;
+    border-radius: 50%;
+    border: 12px solid var(--neptun-major-accent-fill);
+    border-color: #fff transparent #fff transparent;
+    animation: lds-dual-ring 1.2s linear infinite;
+  }
+}
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

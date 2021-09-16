@@ -1,15 +1,20 @@
-import type {NextModule} from '../moduleBase';
+import type {NextModule} from '../moduleBase'
+
+import 'dom'
 import css from '../../scss/index.scss'
 
 const customStyle: NextModule = {
-  shouldInitialize: () => {
-    return true;
+  shouldInitialize() {
+    return true
   },
-  initialize: () => {
-    const tag = document.createElement('style')
-    tag.innerHTML = css
-    document.head.append(tag)
-  }
+  initialize() {
+    // Disable default styles
+    $$('link').forEach(lnk => (lnk.disabled = true))
+
+    // prettier-ignore
+    const style = html`<style>${css}</style>`
+    document.head.append(style)
+  },
 }
 
-export default customStyle;
+export default customStyle
