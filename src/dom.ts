@@ -24,14 +24,14 @@ declare global {
      */
     $<K extends keyof HTMLElementTagNameMap>(selectors: K): HTMLElementTagNameMap[K] | null
     $<K extends keyof SVGElementTagNameMap>(selectors: K): SVGElementTagNameMap[K] | null
-    $<E extends Element = Element>(selectors: string): E | null
+    $<E extends HTMLElement = HTMLElement>(selectors: string): E | null
     
     /**
      * Returns all element descendants of node that match selectors.
      */
     $$<K extends keyof HTMLElementTagNameMap>(selectors: K): NodeListOf<HTMLElementTagNameMap[K]>;
     $$<K extends keyof SVGElementTagNameMap>(selectors: K): NodeListOf<SVGElementTagNameMap[K]>;
-    $$<E extends Element = Element>(selectors: string): NodeListOf<E>;
+    $$<E extends HTMLElement = HTMLElement>(selectors: string): NodeListOf<E>;
   }
 
   // Add $, $$ query selector shorthands to Window
@@ -40,7 +40,7 @@ declare global {
    */
   function $<K extends keyof HTMLElementTagNameMap>(selectors: K): HTMLElementTagNameMap[K] | null
   function $<K extends keyof SVGElementTagNameMap>(selectors: K): SVGElementTagNameMap[K] | null
-  function $<E extends Element = Element>(selectors: string): E | null
+  function $<E extends HTMLElement = HTMLElement>(selectors: string): E | null
   function $(selectors: string): Element | null;
 
   /**
@@ -48,13 +48,13 @@ declare global {
    */
   function $$<K extends keyof HTMLElementTagNameMap>(selectors: K): NodeListOf<HTMLElementTagNameMap[K]>;
   function $$<K extends keyof SVGElementTagNameMap>(selectors: K): NodeListOf<SVGElementTagNameMap[K]>;
-  function $$<E extends Element = Element>(selectors: string): NodeListOf<E>; 
+  function $$<E extends HTMLElement = HTMLElement>(selectors: string): NodeListOf<E>; 
   function $$(selectors: string): NodeList;
 
   /**
    * Create an HTML element from a template string.
    */
-  function html(template: { raw: readonly string[]}, ...substitutions: any[]): Element;
+  function html(template: { raw: readonly string[]}, ...substitutions: any[]): HTMLElement;
 
   /**
    * Execute JavaScript in the context of the current page
@@ -82,15 +82,18 @@ window.html = (template: {raw: readonly string[]}, ...substitutions: any[]) => {
 
   // see https://github.com/jquery/jquery/blob/main/src/core/parseHTML.js
   if (parsed) {
-    return document.createElement(parsed[1])
+    return document.createElement(parsed[1]) as HTMLElement
   }
 
   // see https://stackoverflow.com/questions/9284117/
   const temp = document.createElement('template')
   temp.innerHTML = processed
 
-  return temp.content.firstElementChild!
+  return temp.content.firstElementChild as HTMLElement
 }
+
+// TODO create function to allow inserting multiple elements based on 
+// https://github.com/jquery/jquery/blob/main/src/manipulation/buildFragment.js
 
 window.evalHere = (script: string | (() => any)) => {
   script = typeof script === 'function' ? `(${script})()` : script
