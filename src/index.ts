@@ -1,16 +1,18 @@
 import type {NextModule} from './moduleBase'
 
-import {isNeptunDomain} from 'navigation'
+import {isNeptunDomain} from './navigation'
 
 import customStyle from './modules/customStyle'
 import transformLogin from './modules/transformLogin'
-import infiniteSession from 'modules/infiniteSession'
+import infiniteSession from './modules/infiniteSession'
+import transformHeader from './modules/transformHeader'
 
 // prettier-ignore
 const modules: NextModule[] = [
   customStyle,
   transformLogin,
-  infiniteSession
+  infiniteSession,
+  transformHeader,
 ]
 
 ;(() => {
@@ -25,6 +27,6 @@ const modules: NextModule[] = [
       initialized.push(md.name)
     }
   }
-  
-  console.info({initialized})
+
+  console.info(initialized)
 })()
