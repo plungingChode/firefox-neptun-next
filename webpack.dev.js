@@ -1,8 +1,9 @@
 const path = require('path')
-const ManifestPlugin = require('./extension-manifest-plugin'); 
+const ManifestPlugin = require('./extension-manifest-plugin')
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
 const cssLoader = {loader: 'css-loader', options: {url: false}}
 
-const targetDir = path.resolve(__dirname, 'build');
+const targetDir = path.resolve(__dirname, 'build')
 
 module.exports = {
   mode: 'development',
@@ -14,6 +15,7 @@ module.exports = {
   },
   resolve: {
     extensions: ['.ts', '.js'],
+    plugins: [new TsconfigPathsPlugin({configFile: './tsconfig.json'})],
   },
   module: {
     rules: [
@@ -28,7 +30,5 @@ module.exports = {
       },
     ],
   },
-  plugins: [
-    new ManifestPlugin(targetDir)
-  ]
+  plugins: [new ManifestPlugin(targetDir)],
 }
