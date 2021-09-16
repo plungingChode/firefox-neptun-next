@@ -55,6 +55,11 @@ declare global {
    * Create an HTML element from a template string.
    */
   function html(template: { raw: readonly string[]}, ...substitutions: any[]): Element;
+
+  /**
+   * Execute JavaScript in the context of the current page
+   */
+  function evalHere(script: string | (() => any)): void;
 }
 
 Element.prototype.$ = Element.prototype.querySelector
@@ -85,6 +90,16 @@ window.html = (template: {raw: readonly string[]}, ...substitutions: any[]) => {
   temp.innerHTML = processed
 
   return temp.content.firstElementChild!
+}
+
+window.evalHere = (script: string | (() => any)) => {
+  script = typeof script === 'function' ? `(${script})()` : script
+  const el = document.createElement('script')
+  el.setAttribute('type', 'application/javascript')
+  el.textContent = script
+
+  document.body.appendChild(el)
+  document.body.removeChild(el)
 }
 
 export {}
