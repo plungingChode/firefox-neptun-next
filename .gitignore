@@ -1,0 +1,5 @@
+node_modules/
+build/
+
+# Personal config file
+webext-config.js

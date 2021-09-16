@@ -1,0 +1,13 @@
+{
+  "manifest_version": 2,
+  "name": "Neptun Next",
+  "version": "<version>",
+  "description": "Adds extra functions and a new look to Neptun.Net pages.",
+  "icons": {},
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["index.js"]
+    }
+  ]
+}
