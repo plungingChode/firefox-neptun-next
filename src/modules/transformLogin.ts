@@ -3,6 +3,7 @@
 
 import type {NextModule} from '../moduleBase'
 import 'dom'
+import {isPage, NeptunPage} from '../navigation';
 
 /** Remove unnecessary parts (parens, exact time, whitespace) of a date string. */
 function formatDateString(date: string): string {
@@ -253,10 +254,10 @@ function parseLoginForm(table: Element) {
 
 const transformLogin: NextModule = {
   shouldInitialize() {
-    return document.body.id === 'bodyLogin'
+    return isPage(NeptunPage.login);
   },
   initialize() {
-    console.log('initialize transformLogin')
+    console.info('Initialize transformLogin')
 
     const container = $('.login_center')
 

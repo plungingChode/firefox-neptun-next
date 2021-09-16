@@ -1,17 +1,20 @@
 import type {NextModule} from './moduleBase'
 
+import {isNeptunDomain} from 'navigation'
+
 import customStyle from './modules/customStyle'
 import transformLogin from './modules/transformLogin'
+import infiniteSession from 'modules/infiniteSession'
 
 // prettier-ignore
 const modules: NextModule[] = [
   customStyle,
-  transformLogin
+  transformLogin,
+  infiniteSession
 ]
 
 ;(() => {
-  const rx_neptun = /^http(s)?:\/\/neptun.*?\..*?\..*?\/(oktato|hallgato).*$/
-  if (!rx_neptun.test(window.location.href)) {
+  if (!isNeptunDomain()) {
     return
   }
 

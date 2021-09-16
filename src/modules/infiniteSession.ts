@@ -1,4 +1,5 @@
 import {NextModule} from 'moduleBase'
+import {isAuthenticated} from 'navigation'
 
 const threeMinutes = 180_000 // minimum wait time
 const upToFiveMinutes = () => Math.random() * 300_000 // random variance
@@ -26,8 +27,8 @@ function keepAlive() {
   window.setTimeout(keepAlive, timeout)
 }
 
+/** Remove logout timers and warning dialog */
 function clearTimers() {
-  // Remove logout timers and dialog
   evalHere(() => {
     ;(window as any).ShowModal = function () {}
     clearTimeout((window as any).timerID)
@@ -38,7 +39,7 @@ function clearTimers() {
 
 const infiniteSession: NextModule = {
   shouldInitialize() {
-    return !!document.querySelector('#form1')
+    return isAuthenticated()
   },
   initialize() {
     console.log('initialize infiniteSession')
