@@ -7,7 +7,7 @@ enum Action {
   paginationChange,
 }
 const webRequestActions: Record<Action, RegExp> = {
-  [Action.paginationChange]: /.*handlerequest.ashx.*|main.aspx.*/i,
+  [Action.paginationChange]: /handlerequest\.ashx|main\.aspx\?ismenclick=true&ctrl=.*/i,
 }
 function isAction(action: Action, url: string) {
   return webRequestActions[action].test(url)
@@ -42,7 +42,6 @@ browser.webRequest.onBeforeRequest.addListener(({url, tabId}) => {
 browser.tabs.onUpdated.addListener((tabId, info) => {
   // Inject custom CSS into Neptun pages
   if (info.status === 'loading' && isNeptunDomain(info.url)) {
-    console.log('Add custom CSS')
     browser.tabs.insertCSS(tabId, {code: css})
   }
 })
@@ -65,6 +64,12 @@ browser.webRequest.onBeforeRequest.addListener(({type, url}) => {
 
   // Block other images and all CSS
   if (type === 'image' || type === 'stylesheet') {
+    return {cancel: true}
+  }
+
+  // Left widget lists are not displayed anyway, block their
+  // sorting order info
+  if (/GetLeftGadgetSortedList$/.test(url)) {
     return {cancel: true}
   }
 }, filter, ['blocking']);
