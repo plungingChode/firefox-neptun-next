@@ -18,8 +18,8 @@ const neptunPages: Record<NeptunPage, RegExp> = {
   [NeptunPage.signedExams]: /0402|h_signedexams/,
 }
 
-function isPage(page: NeptunPage) {
-  return neptunPages[page].test(window.location.href)
+function isPage(page: NeptunPage, url=window.location.href) {
+  return neptunPages[page].test(url)
 }
 
 enum NeptunPageGroup {
@@ -47,15 +47,15 @@ const neptunPageGroups: Record<NeptunPageGroup, RegExp> = {
   [NeptunPageGroup.mail]: /main\.aspx$|inbox|outbox|rules|directory/,
 };
 
-function isPageGroup(group: NeptunPageGroup) {
-  return neptunPageGroups[group].test(window.location.href)
+function isPageGroup(group: NeptunPageGroup, url=window.location.href) {
+  return neptunPageGroups[group].test(url)
 }
 
 function isAuthenticated() {
   return !!document.querySelector('#form1')
 }
 
-function isNeptunDomain() {
+function isNeptunDomain(url=window.location.href) {
   const patterns = [
     /https:\/\/.*neptun.*\/.*hallgato(i)?.*\/.*/i,
     /https:\/\/.*hallgato.*\/.*neptun?.*\/.*/i,
@@ -67,7 +67,7 @@ function isNeptunDomain() {
     /https:\/\/neptun\.ejf\.hu\/ejfhw\/.*/i,
   ]
 
-  return patterns.some(p => p.test(window.location.href))
+  return patterns.some(p => p.test(url))
 }
 
 export {
