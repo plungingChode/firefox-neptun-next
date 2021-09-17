@@ -9,18 +9,18 @@
 @mixin progress-animation($engine) {
   animation-name: #{$engine}-loading;
   animation-iteration-count: infinite;
-  animation-duration: 2s;
+  animation-duration: 1s;
   animation-fill-mode: none;
   animation-timing-function: linear;
 }
 
-#npu-loading {
+#n-ext-progressbar {
   position: fixed;
-  display: none;
   top: 0;
   left: 0;
   width: 100vw;
   height: 3px;
+  border: none;
 
   background-color: $neutral-fill;
 
@@ -77,6 +77,6 @@
     transform: translateX(-25%);
   }
   100% {
-    transform: translateY(100%);
+    transform: translateX(100%);
   }
 }
