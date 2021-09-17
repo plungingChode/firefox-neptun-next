@@ -13,8 +13,8 @@ const customStyle: NextModule = {
     $$('link').forEach(lnk => (lnk.disabled = true))
 
     // prettier-ignore
-    const style = html`<style>${css}</style>`
-    document.head.append(style)
+    // const style = html`<style>${css}</style>`
+    // document.head.append(style)
   },
 }
 

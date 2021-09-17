@@ -7,10 +7,13 @@ const targetPath = path.resolve(__dirname, 'dist')
 
 module.exports = {
   mode: 'production',
-  entry: './src/index.ts',
+  entry: {
+    index: './src/index.ts',
+    background: './src/background.ts'
+  },
   target: 'web',
   output: {
-    filename: 'index.js',
+    filename: '[name].js',
     path: targetPath,
   },
   resolve: {

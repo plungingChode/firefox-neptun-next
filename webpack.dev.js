@@ -3,15 +3,18 @@ const ManifestPlugin = require('./extension-manifest-plugin')
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
 const cssLoader = {loader: 'css-loader', options: {url: false}}
 
-const targetDir = path.resolve(__dirname, 'build')
+const targetPath = path.resolve(__dirname, 'build')
 
 module.exports = {
   mode: 'development',
-  entry: './src/index.ts',
+  entry: {
+    index: './src/index.ts',
+    background: './src/background.ts'
+  },
   target: 'web',
   output: {
-    filename: 'index.js',
-    path: targetDir,
+    filename: '[name].js',
+    path: targetPath,
   },
   resolve: {
     extensions: ['.ts', '.js'],
@@ -27,8 +30,8 @@ module.exports = {
       {
         test: /\.scss$/i,
         use: ['raw-loader', 'extract-loader', cssLoader, 'sass-loader'],
-      },
+      }
     ],
   },
-  plugins: [new ManifestPlugin(targetDir)],
+  plugins: [new ManifestPlugin(targetPath)],
 }

@@ -4,6 +4,15 @@
   "version": "<version>",
   "description": "Adds extra functions and a new look to Neptun.Net pages.",
   "icons": {},
+  "permissions": [
+    "<all_urls>",
+    "webRequest",
+    "webRequestBlocking",
+    "tabs"
+  ],
+  "background": {
+    "scripts": ["background.js"]
+  },
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
