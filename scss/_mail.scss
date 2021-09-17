@@ -1,11 +1,17 @@
-@use "variables" as *;
+@use 'variables' as *;
 
-// Hide mail header row (it's pretty obvious and there's no need to order)
+// Hide:
+// mail header row (it's pretty obvious and there's no need to order)
 #c_messages_gridMessages_headerrow,
-// Hide mail selection checkbox label (why is it there?)
+// mail selection checkbox label (why is it there?)
 .labelcontext,
-// Hide read/unread mail icon
-#c_messages_gridMessages_bodytable > tbody > tr > td:nth-child(6) {
+// read/unread mail icon
+#c_messages_gridMessages_bodytable > tbody > tr > td:nth-child(6),
+// "Operations:" label before buttons
+.functionitem > .FunctionCommandTitle,
+// grid corner cells
+.grid_pagerrow_left, .grid_pagerrow_right, 
+.grid_footerleftcorner, .grid_footerrightcorner {
   display: none;
 }
 

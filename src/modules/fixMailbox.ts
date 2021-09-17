@@ -1,5 +1,6 @@
 import {NextModule} from 'moduleBase'
 import {isPage, isPageGroup, NeptunPageGroup} from 'navigation'
+import {message, ToContentMessage} from 'message-content'
 
 function transformSearchBar() {
   const searchFieldDropdown = $('#c_messages_gridMessages_searchcolumn')
@@ -20,11 +21,7 @@ function setUnreadFlags() {
 }
 
 function addOnChangeHandlers() {
-  const pageSizeDropdown = $('#c_messages_gridMessages_ddlPageSize')
-  const pageLinks = $$('.pagerlink')
-
-  pageSizeDropdown.addEventListener('change', setUnreadFlags)
-  pageLinks.forEach(a => a.addEventListener('click', setUnreadFlags))
+  message.on(ToContentMessage.paginationChanged, () => setUnreadFlags())
 }
 
 const fixMailbox: NextModule = {
