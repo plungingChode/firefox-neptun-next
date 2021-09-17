@@ -1,0 +1,73 @@
+@use 'variables' as *;
+
+// $shadow-color: hsla(0, 0%, 60%, 70%);
+$shadow-color: var(--neptun-major-accent-fill-contrast);
+
+.nt-button {
+  border: 0.1rem solid transparent;
+  padding: 0.75rem 1.25rem;
+  
+  border-radius: 4px;
+  box-shadow: 1.5px 1.5px 0px 1.5px $shadow-color;
+  cursor: pointer;
+
+  // Reset <button>
+  text-transform: none;
+  // Reset <a>
+  text-decoration: none;
+  font-weight: 500;
+
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+
+  &:active {
+    transform: translate(2px, 2px);
+    box-shadow: 0px 0px 0px 0px $shadow-color;
+  }
+
+  &.primary {
+    color: $major-accent-text;
+    background-color: $major-accent-fill;
+  
+    &:hover {
+      background-color: $major-accent-fill-hover;
+    }
+    &:active {
+      background-color: $major-accent-fill-active;
+
+    }
+  }
+
+  &.secondary {
+    color: $minor-accent-text;
+    background-color: inherit;
+    border-color: currentColor;
+    box-shadow: 2px 2px 0 0 $shadow-color;
+
+    &:hover {
+      color: $minor-accent-text-hover;
+      background-color: $minor-accent-fill-hover;
+    }
+    &:active {
+      color: $minor-accent-text-active;
+      background-color: $minor-accent-fill-active;
+      box-shadow: 0px 0px 0px 0px $shadow-color;
+    }
+  }
+
+  &.tertiary {
+    color: $minor-accent-text;
+    background-color: inherit;
+    box-shadow: 1px 1px 2px 0px $shadow-color;
+
+    &:hover {
+      color: $minor-accent-text-hover;
+      background-color: $minor-accent-fill-hover;
+    }
+    &:active {
+      color: $minor-accent-text-active;
+      background-color: $minor-accent-fill-active;
+      box-shadow: 0px 0px 0px 0px $shadow-color;
+      transform: translate(1px, 2px);
+    }
+  }
+}
