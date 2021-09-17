@@ -1,0 +1,82 @@
+@use 'variables' as *;
+
+// Hide default progress indicators
+#progress,
+#customtextprogress {
+  visibility: hidden;
+}
+
+@mixin progress-animation($engine) {
+  animation-name: #{$engine}-loading;
+  animation-iteration-count: infinite;
+  animation-duration: 2s;
+  animation-fill-mode: none;
+  animation-timing-function: linear;
+}
+
+#npu-loading {
+  position: fixed;
+  display: none;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 3px;
+
+  background-color: $neutral-fill;
+
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+  // Firefox only
+  &::-moz-progress-bar {
+    background-color: transparent;
+
+    // prettier-ignore
+    background-image: linear-gradient(
+      to right, 
+      $major-accent-fill, 
+      $major-accent-fill 25%, 
+      transparent 25.001%
+    );
+
+    // Push from left side
+    transform-origin: left;
+    @include progress-animation(moz);
+  }
+
+  // Webkit only
+  &::-webkit-progress-bar {
+    background-color: $neutral-fill;
+  }
+  &::after {
+    content: "";
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 25%;
+
+    background-color: $major-accent-fill;
+    @include progress-animation(webkit);
+  }
+}
+
+@keyframes webkit-loading {
+  0% {
+    left: -25%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+@keyframes moz-loading {
+  0% {
+    transform: translateX(-25%);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
