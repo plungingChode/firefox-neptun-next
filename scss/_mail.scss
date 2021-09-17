@@ -1,0 +1,14 @@
+@use "variables" as *;
+
+// Hide mail header row (it's pretty obvious and there's no need to order)
+#c_messages_gridMessages_headerrow,
+// Hide mail selection checkbox label (why is it there?)
+.labelcontext,
+// Hide read/unread mail icon
+#c_messages_gridMessages_bodytable > tbody > tr > td:nth-child(6) {
+  display: none;
+}
+
+tr[data-unread] {
+  background-color: khaki;
+}

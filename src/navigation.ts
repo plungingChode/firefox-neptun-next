@@ -44,7 +44,7 @@ const neptunPageGroups: Record<NeptunPageGroup, RegExp> = {
   [NeptunPageGroup.finances]: /05\d\d/,
   [NeptunPageGroup.information]: /130[135]|131[346]|(c_gen|h_inst|h_fir|c_ele).*/,
   [NeptunPageGroup.administration]: /1311|1307|14\d\d|(h_sca|h_sza|h_app|c_onl).*/,
-  [NeptunPageGroup.mail]: /inbox|outbox|rules|directory/,
+  [NeptunPageGroup.mail]: /main\.aspx$|inbox|outbox|rules|directory/,
 };
 
 function isPageGroup(group: NeptunPageGroup) {

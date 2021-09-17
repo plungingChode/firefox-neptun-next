@@ -6,13 +6,22 @@ import customStyle from './modules/customStyle'
 import transformLogin from './modules/transformLogin'
 import infiniteSession from './modules/infiniteSession'
 import transformHeader from './modules/transformHeader'
+import fixMailbox from './modules/fixMailbox'
 
 // prettier-ignore
 const modules: NextModule[] = [
+  // Single global stylesheet
   customStyle,
+
+  // Login page
   transformLogin,
+
+  // All authenticated pages
   infiniteSession,
   transformHeader,
+
+  // Specific pages
+  fixMailbox
 ]
 
 ;(() => {
