@@ -5,7 +5,7 @@ import {isAuthenticated} from 'navigation'
 
 function createElement(): HTMLProgressElement {
   const progress = html`<progress id="n-ext-progressbar" hidden />`
-  document.body.prepend(progress)
+  document.body.prepend(...progress)
   return $('#n-ext-progressbar')
 }
 

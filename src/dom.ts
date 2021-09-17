@@ -52,9 +52,14 @@ declare global {
   function $$(selectors: string): NodeList;
 
   /**
-   * Create an HTML element from a template string.
+   * Create HTML elements from a template string.
    */
-  function html(template: { raw: readonly string[]}, ...substitutions: any[]): HTMLElement;
+  function html(template: { raw: readonly string[]}, ...substitutions: any[]): HTMLElement[];
+
+  /**
+   * Create HTML elements from a template string and return the first one created.
+   */
+  function tag(template: { raw: readonly string[]}, ...substitutions: any[]): HTMLElement;
 
   /**
    * Execute JavaScript in the context of the current page
@@ -73,8 +78,7 @@ window.$ = (selectors: string) => document.querySelector(selectors)
 window.$$ = (selectors: string) => document.querySelectorAll(selectors)
 
 // Check if an HTML string is a single tag
-const rx_singleTag =
-  /^<([a-z][^\/\0>:\x20\t\r\n\f]*)[\x20\t\r\n\f]*\/?>(?:<\/\1>|)$/i
+const rx_singleTag = /^<([a-z][^\/\0>:\x20\t\r\n\f]*)[\x20\t\r\n\f]*\/?>(?:<\/\1>|)$/i
 
 window.html = (template: {raw: readonly string[]}, ...substitutions: any[]) => {
   const processed = String.raw(template, ...substitutions).trim()
@@ -82,18 +86,19 @@ window.html = (template: {raw: readonly string[]}, ...substitutions: any[]) => {
 
   // see https://github.com/jquery/jquery/blob/main/src/core/parseHTML.js
   if (parsed) {
-    return document.createElement(parsed[1]) as HTMLElement
+    return [document.createElement(parsed[1])] as HTMLElement[]
   }
 
   // see https://stackoverflow.com/questions/9284117/
   const temp = document.createElement('template')
   temp.innerHTML = processed
 
-  return temp.content.firstElementChild as HTMLElement
+  return [...temp.content.children] as HTMLElement[];
 }
 
-// TODO create function to allow inserting multiple elements based on 
-// https://github.com/jquery/jquery/blob/main/src/manipulation/buildFragment.js
+window.tag = (template: {raw: readonly string[]}, ...substitutions: any[]) => {
+  return html(template, ...substitutions)[0]
+}
 
 window.evalHere = (script: string | (() => any)) => {
   script = typeof script === 'function' ? `(${script})()` : script

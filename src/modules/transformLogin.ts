@@ -37,7 +37,7 @@ function transformNews(mainContainer: Element) {
     </div>
   `
 
-  mainContainer.append(newsEl)
+  mainContainer.append(...newsEl)
 }
 
 /** Collect the relevant parts of a news item. */
@@ -87,7 +87,7 @@ function transformDocuments(container: Element) {
     </div>
   `
 
-  container.append(docsEl)
+  container.append(...docsEl)
 }
 
 /** Collect the relevant parts of a document item. */
@@ -127,7 +127,7 @@ function transformLinks(container: Element) {
       <div class="links-list">${links}</div>
     </div>
   `
-  container.append(linksEl)
+  container.append(...linksEl)
 }
 
 /** Collect the relevant parts of a link item. */
@@ -206,7 +206,7 @@ function transformLoginForm(container: Element) {
     </div>
   `
 
-  container.append(loginEl)
+  container.append(...loginEl)
   $('.login-field.username').append(userName.validator)
   $('.login-field.username').append(userName.validatorState)
 }

@@ -22,14 +22,14 @@ async function replaceHeader() {
 
   // TODO change #upTraining_topname to something sensible (currently needed
   // for compatibility)
-  const header = [
-    html`<header id="page-header">
+  const header = html`
+    <header id="page-header">
       <span id="upTraining_topname">${userName},</span>
       <a id="training" href="${trainingChangeHref}">${training}</a>
       <a id="logout-btn" href="#" onclick="${logoutAction}">${logoutCaption}</a>
-    </header>`,
-    html`<nav id="main-menu"></nav> `,
-  ]
+    </header>
+    <nav id="main-menu"></nav>
+  `
 
   const oldHeader = $('#mainPageHeader')
   oldHeader.after(...header)
@@ -90,20 +90,17 @@ function addMeetStreetToggle() {
 
   // Add item to main menu. Link is wrapped in a <span>, since styling depends
   // on an inner <span> element (see /scss/_header.scss)
-  //prettier-ignore
-  const toggle = [
-    html`
+  // prettier-ignore
+  const toggle = html`
     <li class="separator" tabindex="-1"></li>
-    `,
-    html`
     <li class="menu-parent menu-item">
       <span>
         <a href="javascript:__doPostBack('upChooser$${menuItem.target}','')">
           ${menuItem.caption}
         </a>
       </span>
-    </li>`,
-  ]
+    </li>
+  `
   $('#mb1').append(...toggle)
 }
 
@@ -168,7 +165,7 @@ function addMailMenu() {
   }
 
   const mailLinks = ['Inbox', 'OutBox', 'Options', 'Directory']
-  const menuRoot = html`
+  const menuRoot = tag`
     <li id="mb1_Mail" class="menu-parent" ${hasUnread} role="menuitem" aria-haspopup="true">
       <span class="menu-item"> ${mailTitle} </span>
       <ul class="menu" role="menu">
@@ -199,7 +196,7 @@ const transformHeaders: NextModule = {
     // transformations
     $$('#mb1 > li').forEach(li => {
       const text = li.childNodes[0].textContent
-      li.childNodes[0].replaceWith(html`<span>${text}</span>`)
+      li.childNodes[0].replaceWith(tag`<span>${text}</span>`)
     })
 
     addMeetStreetToggle()
