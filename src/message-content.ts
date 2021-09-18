@@ -1,5 +1,9 @@
-import type {MessageListener, FilteredListener} from './message-types'
-import {ToContentMessage} from './message-types'
+import type {
+  MessageListener,
+  FilteredListener,
+  ToContentMessage,
+  ToBackgroundMessage,
+} from './message-types'
 
 const listeners: Partial<Record<ToContentMessage, FilteredListener[]>> = {}
 
@@ -36,6 +40,10 @@ const message = {
     browser.runtime.onMessage.removeListener(listeners[msg][idx].filtered)
     listeners[msg].splice(idx, 1)
     return true
+  },
+
+  send(msg: ToBackgroundMessage) {
+    browser.runtime.sendMessage(msg.toString())
   },
 }
 

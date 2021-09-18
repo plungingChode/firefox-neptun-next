@@ -1,14 +1,24 @@
 type MessageListener = () => any
 type MessageFilter = (message: string) => void
 type FilteredListener = {
-  listener: MessageListener,
+  listener: MessageListener
   filtered: MessageFilter
 }
 
-enum ToContentMessage {
-  'paginationChanged',
-  'beforePaginationChange'
-}
+// prettier-ignore
+type ToContentMessage = 
+  | 'paginationChanged' 
+  | 'beforePaginationChange' 
+  | 'filterChanged'
 
-export type {MessageListener, MessageFilter, FilteredListener}
-export {ToContentMessage}
+// prettier-ignore
+type ToBackgroundMessage = 
+  | 'prepareFilterChange'
+
+export type {
+  MessageListener,
+  MessageFilter,
+  FilteredListener,
+  ToContentMessage,
+  ToBackgroundMessage,
+}

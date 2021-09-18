@@ -1,31 +1,44 @@
 import {isNeptunDomain, isPageGroup, isPage, NeptunPage, NeptunPageGroup} from './navigation'
 import {message} from './message-background'
-import {ToContentMessage} from 'message-types'
 import css from '../scss/index.scss'
 
-enum Action {
-  paginationChange,
-}
+// prettier-ignore
+type Action = 
+  | 'paginationChange' 
+  | 'generic'
+
 const webRequestActions: Record<Action, RegExp> = {
-  [Action.paginationChange]: /handlerequest\.ashx|main\.aspx\?ismenclick=true&ctrl=.*/i,
+  paginationChange: /handlerequest\.ashx|main\.aspx\?ismenclick=true&ctrl=.*/i,
+  generic: /main\.aspx/i,
 }
 function isAction(action: Action, url: string) {
   return webRequestActions[action].test(url)
 }
 
+// prettier-ignore
+type PreparableRequest = 
+  | 'filterChange'
+
+let nextRequest: PreparableRequest | null = null
+
+// TODO what about concurrent requests?
+message.on('prepareFilterChange', () => (nextRequest = 'filterChange'))
+
 // Intercept web requests from all domains, filter for Neptun later (since they
 // have a strange subdomain naming scheme)
-const filter: browser.webRequest.RequestFilter = {
-  urls: ['https://*/*'],
-}
+const filter = {urls: ['https://*/*']}
 browser.webRequest.onCompleted.addListener(({url, tabId}) => {
   // Discard non-Neptun.NET requests
   if (!isNeptunDomain(url)) {
     return
   }
 
-  if (isAction(Action.paginationChange, url)) {
-    message.send(tabId, ToContentMessage.paginationChanged)
+  if (isAction('paginationChange', url)) {
+    message.send(tabId, 'paginationChanged')
+  }
+  if (nextRequest === 'filterChange' && isAction('generic', url)) {
+    message.send(tabId, 'filterChanged')
+    nextRequest = null
   }
 }, filter)
 
@@ -34,8 +47,8 @@ browser.webRequest.onBeforeRequest.addListener(({url, tabId}) => {
     return
   }
 
-  if (isAction(Action.paginationChange, url)) {
-    message.send(tabId, ToContentMessage.beforePaginationChange)
+  if (isAction('paginationChange', url)) {
+    message.send(tabId, 'beforePaginationChange')
   }
 }, filter)
 
@@ -47,29 +60,30 @@ browser.tabs.onUpdated.addListener((tabId, info) => {
 })
 
 // Block default images/CSS
-browser.webRequest.onBeforeRequest.addListener(({type, url}) => {
-  // Don't interfere with non-neptun pages
-  if (!isNeptunDomain(url)) {
-    return
-  }
+browser.webRequest.onBeforeRequest.addListener(
+  ({type, url}) => {
+    // Don't interfere with non-neptun pages
+    if (!isNeptunDomain(url)) {
+      return
+    }
 
-  // Allow specific images through
-  const whitelist = [
-    /favicon.ico$/,
-    /login_logo.png$/
-  ]
-  if (type === 'image' && whitelist.some(rx => rx.test(url))) {
-    return
-  }
+    // Allow specific images through
+    const whitelist = [/favicon.ico$/, /login_logo.png$/]
+    if (type === 'image' && whitelist.some(rx => rx.test(url))) {
+      return
+    }
 
-  // Block other images and all CSS
-  if (type === 'image' || type === 'stylesheet') {
-    return {cancel: true}
-  }
+    // Block other images and all CSS
+    if (type === 'image' || type === 'stylesheet') {
+      return {cancel: true}
+    }
 
-  // Left widget lists are not displayed anyway, block their
-  // sorting order info
-  if (/GetLeftGadgetSortedList$/.test(url)) {
-    return {cancel: true}
-  }
-}, filter, ['blocking']);
+    // Left widget lists are not displayed anyway, block their
+    // sorting order info
+    if (/GetLeftGadgetSortedList$/.test(url)) {
+      return {cancel: true}
+    }
+  },
+  filter,
+  ['blocking']
+)

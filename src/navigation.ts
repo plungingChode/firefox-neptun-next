@@ -1,3 +1,5 @@
+import 'dom'
+
 enum NeptunPage {
   /** Bejelentkezés */ login,
   /** Órarend */ timetable,
@@ -18,7 +20,7 @@ const neptunPages: Record<NeptunPage, RegExp> = {
   [NeptunPage.signedExams]: /0402|h_signedexams/,
 }
 
-function isPage(page: NeptunPage, url=window.location.href) {
+function isPage(page: NeptunPage, url = window.location.href) {
   return neptunPages[page].test(url)
 }
 
@@ -47,7 +49,7 @@ const neptunPageGroups: Record<NeptunPageGroup, RegExp> = {
   [NeptunPageGroup.mail]: /main\.aspx$|inbox|outbox|rules|directory/,
 };
 
-function isPageGroup(group: NeptunPageGroup, url=window.location.href) {
+function isPageGroup(group: NeptunPageGroup, url = window.location.href) {
   return neptunPageGroups[group].test(url)
 }
 
@@ -55,7 +57,7 @@ function isAuthenticated() {
   return !!document.querySelector('#form1')
 }
 
-function isNeptunDomain(url=window.location.href) {
+function isNeptunDomain(url = window.location.href) {
   const patterns = [
     /https:\/\/.*neptun.*\/.*hallgato(i)?.*\/.*/i,
     /https:\/\/.*hallgato.*\/.*neptun?.*\/.*/i,
@@ -70,6 +72,40 @@ function isNeptunDomain(url=window.location.href) {
   return patterns.some(p => p.test(url))
 }
 
+let cachedLang: NeptunLanguage | null = null
+type NeptunLanguage = 'hu-HU' | 'en-GB' | 'de-DE'
+function getPageLanguage(): NeptunLanguage {
+  if (cachedLang) {
+    return cachedLang
+  }
+  
+  const buttons = $$('[id^=btnLang_')
+  const isActive = (el: HTMLElement) => {
+    return getComputedStyle(el).opacity === '1'
+  }
+  for (const btn of buttons) {
+    if (!isActive(btn)) {
+      continue
+    }
+    switch (btn.title.toLowerCase()) {
+      case 'magyar':
+        cachedLang = 'hu-HU'
+        break
+      case 'english':
+        cachedLang = 'en-GB'
+        break
+      case 'deutsch':
+        cachedLang = 'de-DE'
+        break
+    }
+  }
+
+  if (!cachedLang) {
+    cachedLang = 'hu-HU'
+  }
+  return cachedLang
+}
+
 export {
   isPage,
   NeptunPage,
@@ -77,4 +113,6 @@ export {
   NeptunPageGroup,
   isAuthenticated,
   isNeptunDomain,
+  NeptunLanguage,
+  getPageLanguage,
 }

@@ -1,5 +1,4 @@
 import {message} from 'message-content'
-import {ToContentMessage} from 'message-types'
 import {NextModule} from 'moduleBase'
 import {isAuthenticated} from 'navigation'
 
@@ -10,10 +9,10 @@ function createElement(): HTMLProgressElement {
 }
 
 function registerHooks(el: HTMLProgressElement) {
-  message.on(ToContentMessage.beforePaginationChange, () => {
+  message.on('beforePaginationChange', () => {
     el.removeAttribute('hidden')
   })
-  message.on(ToContentMessage.paginationChanged, () => {
+  message.on('paginationChanged', () => {
     el.setAttribute('hidden', '')
   })
 }
