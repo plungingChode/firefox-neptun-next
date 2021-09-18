@@ -10,10 +10,12 @@ type ToContentMessage =
   | 'paginationChanged' 
   | 'beforePaginationChange' 
   | 'filterChanged'
+  | 'pageLoaded'
 
 // prettier-ignore
 type ToBackgroundMessage = 
   | 'prepareFilterChange'
+  | 'prepareKeepAlive'
 
 export type {
   MessageListener,
