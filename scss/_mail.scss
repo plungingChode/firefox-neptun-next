@@ -11,10 +11,77 @@
 .functionitem > .FunctionCommandTitle,
 // grid corner cells
 .grid_pagerrow_left, .grid_pagerrow_right, 
-.grid_footerleftcorner, .grid_footerrightcorner {
-  display: none;
+.grid_footerleftcorner, .grid_footerrightcorner,
+// delete button on bottom
+#function_delete1 {
+  display: none !important;
 }
 
-tr[data-unread] {
-  background-color: khaki;
+@mixin ellipsis-overflow {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.main_function_table,
+.function_table,
+#c_messages_gridMessages_bodytable {
+  width: 100%;
+}
+.main_function_table {
+  padding: 0 10vw;
+}
+
+#c_messages_gridMessages_bodytable {
+  tr {
+    position: relative;
+    display: flex;
+    padding: 0.25rem 0.5rem;
+
+    background-color: $neutral-fill;
+    box-shadow: inset 0 -1px 0 0 rgba(100,121,143,0.122);
+    cursor: pointer;
+
+    &:hover {
+      z-index: 1;
+      box-shadow: inset 1px 0 0 #dadce0, inset -1px 0 0 #dadce0, 0 1px 2px 0 rgba(60, 64, 67, 0.3),
+        0 1px 3px 1px rgba(60, 64, 67, 0.15);
+    }
+
+    &[data-unread] {
+      background-color: $plain-fill;
+      font-weight: 500;
+    }
+    &[data-selected='true'] {
+      background-color: khaki;
+    }
+
+    // Sender
+    & > td:nth-child(5) {
+      flex-basis: 13rem;
+      flex-shrink: 0;
+      width: 13rem;
+      max-width: 13rem;
+      padding-right: 2rem;
+
+      @include ellipsis-overflow();
+    }
+
+    // Subject
+    & > td:nth-child(7) {
+      flex-shrink: 1;
+      padding-right: 1rem;
+
+      @include ellipsis-overflow();
+    }
+
+    // Date cell
+    & > td:last-child {
+      max-width: 7.5rem;
+      flex-basis: 7.5rem;
+
+      text-align: right;
+      margin-left: auto;
+    }
+  }
 }

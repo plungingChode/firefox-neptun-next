@@ -1,0 +1,14 @@
+@use 'variables' as *;
+
+.FunctionHeaderItem, // arrow next to page title
+.sp_header_midle, // short filter area
+#upFavouriteCommand_lbtn_favorite, // add to favorites option
+.footer_table  // footer
+{
+  display: none;
+}
+
+// Listings
+.tableRowName {
+  color: $neutral-text;
+}

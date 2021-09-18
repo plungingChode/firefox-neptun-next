@@ -9,7 +9,8 @@ $submenu-item-negative-margin: -0.25rem -0.75rem;
 #panCloseHeader,
 #headerlabel,
 #upTraining_lblRemainingTime,
-.left_boxes {
+.left_boxes,
+.top_menu_wrapper {
   display: none;
 }
 
@@ -75,7 +76,7 @@ header {
 //
 .separator {
   width: 1px;
-  background-color: $neutral-fill;
+  background-color: $neutral-line;
   margin: 0.25rem 0.35rem;
 }
 // Menu item w/ associated action
@@ -105,6 +106,7 @@ header {
 // Main menu - submenus
 .menu {
   position: absolute;
+  z-index: 3;
   display: none;
   top: 2.2rem;
   margin-left: 0.5rem;
