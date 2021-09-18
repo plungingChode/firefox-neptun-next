@@ -1,4 +1,5 @@
 @use 'variables' as *;
+@use 'mixins' as *;
 
 // Hide:
 // mail header row (it's pretty obvious and there's no need to order)
@@ -7,31 +8,86 @@
 .labelcontext,
 // read/unread mail icon
 #c_messages_gridMessages_bodytable > tbody > tr > td:nth-child(6),
-// "Operations:" label before buttons
-.functionitem > .FunctionCommandTitle,
 // grid corner cells
 .grid_pagerrow_left, .grid_pagerrow_right, 
 .grid_footerleftcorner, .grid_footerrightcorner,
 // delete button on bottom
-#function_delete1 {
+#function_delete1,
+// export actions
+#c_messages_gridMessages_grid,
+// loading animation
+#c_messages_gridMessages_animation,
+// "Search" label before search fields
+.grid_searchcaption,
+// label hidden by default style (I assume?)
+.hiddenforlabel {
   display: none !important;
 }
 
-@mixin ellipsis-overflow {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+// Always display search fields
+#c_messages_gridMessages_searchtable {
+  display: unset !important;
 }
 
+// Make tables fill up the available space
 .main_function_table,
 .function_table,
-#c_messages_gridMessages_bodytable {
+#c_messages_gridMessages_bodytable,
+.grid_pagertable {
   width: 100%;
 }
 .main_function_table {
   padding: 0 10vw;
 }
 
+// Pagination
+.pagerlink,
+.pagerlink_disabled {
+  display: inline-block;
+  margin-right: 0.25rem;
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+  background-color: $neutral-fill;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $neutral-fill-hover;
+  }
+  &:active {
+    background-color: $neutral-fill-active;
+  }
+}
+.pagerlink_disabled {
+  // Active page
+  color: $major-accent-text;
+  background-color: $major-accent-fill !important;
+  font-weight: 500;
+}
+
+// Pager actions
+.grid_pagertable {
+  border-bottom: 1px solid rgba(100, 121, 143, 0.122);
+}
+.grid_pagertable .functionitem {
+  display: flex;
+
+  & > #upFunctionCommand_lbtn_new {
+    text-decoration: none;
+    color: $major-accent-text;
+  }
+  .nt-button {
+    min-width: 7rem;
+    padding: 0.25rem 0.5rem;
+    margin-left: 0.5rem;
+    text-align: center;
+  }
+}
+
+
+// Inbox
+#c_messages_gridMessages_grid_body_div {
+  overflow-y: scroll;
+}
 #c_messages_gridMessages_bodytable {
   tr {
     position: relative;
@@ -39,7 +95,7 @@
     padding: 0.25rem 0.5rem;
 
     background-color: $neutral-fill;
-    box-shadow: inset 0 -1px 0 0 rgba(100,121,143,0.122);
+    box-shadow: inset 0 -1px 0 0 rgba(100, 121, 143, 0.122);
     cursor: pointer;
 
     &:hover {
@@ -53,7 +109,16 @@
       font-weight: 500;
     }
     &[data-selected='true'] {
-      background-color: khaki;
+      background-color: hsl(54, 67%, 75%);
+    }
+
+    // Row select checkbox
+    & > td:nth-child(2) {
+      padding-right: 0.75rem;
+
+      & > input {
+        cursor: pointer;
+      }
     }
 
     // Sender
@@ -84,4 +149,54 @@
       margin-left: auto;
     }
   }
+}
+
+// Inbox filters
+.filters {
+  display: flex;
+  border-bottom: 1px solid rgba(100, 121, 143, 0.122);
+}
+.filter {
+  display: flex;
+  width: 15rem;
+
+  & > span {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    color: $plain-text;
+    opacity: 0.5;
+    font-weight: 500;
+    text-align: center;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+
+    &:hover {
+      background-color: $neutral-fill;
+      opacity: 1;
+    }
+  }
+  & > span::before {
+    margin-right: 0.75rem;
+    vertical-align: text-bottom;
+    font-family: 'Material Icons';
+    font-size: 1.25rem;
+    line-height: 1;
+  }
+  &[data-active='true'] > span {
+    color: $major-accent-fill;
+    border-bottom-color: $major-accent-fill;
+    opacity: 1;
+  }
+}
+// All mail
+.filter-upFilter_rblMessageTypes_2 > span::before {
+  content: 'inbox';
+}
+// Mail from people
+.filter-upFilter_rblMessageTypes_0 > span::before {
+  content: 'people';
+}
+// Automated mail
+.filter-upFilter_rblMessageTypes_1 > span::before {
+  content: 'smart_toy';
 }

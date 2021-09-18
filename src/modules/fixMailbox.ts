@@ -1,20 +1,38 @@
 import type {NeptunLanguage} from 'navigation'
 
 import {NextModule} from 'moduleBase'
-import {getPageLanguage, isPage, isPageGroup, NeptunPageGroup} from 'navigation'
+import {getPageLanguage, isPage, NeptunPage, isPageGroup, NeptunPageGroup} from 'navigation'
 import {message} from 'message-content'
 import {DateTime} from 'luxon'
 
 const mailTable = '#c_messages_gridMessages_bodytable'
-const lux_format: Record<NeptunLanguage, string> = {
-  'hu-HU': 'yyyy. MM. dd. H:mm:ss',
-  'en-GB': 'dd/MM/yyyy HH:mm:ss',
-  'de-DE': 'dd.MM.yyyy HH:mm:ss', // TODO ?
+const mailTableContainer = '#c_messages_gridMessages_grid_body_div'
+
+const luxonFormats: Record<NeptunLanguage, string> = {
+  'hu-HU': 'yyyy. MM. dd. TT',
+  'en-GB': 'M/d/yyyy tt',
+  'de-DE': 'dd.MM.yyyy TT', // TODO ?
 }
 const today = DateTime.now().startOf('day')
 
 function parseDate(date: string): DateTime {
-  return DateTime.fromFormat(date, lux_format[getPageLanguage()])
+  return DateTime.fromFormat(date, luxonFormats[getPageLanguage()])
+}
+
+// Shouldn't be done through CSS, since elements with these classes/ids
+// need to be visible elsewhere
+function hideUnnecessary() {
+  const toHide = [
+    // Default filter fields
+    '.function_table > tbody > tr:nth-child(3)',
+    // Add to favorites + new mail command buttons
+    '.function_table > tbody > tr:nth-child(4)',
+    // "Operations:" labels
+    '.FunctionCommandTitle',
+    // "Inbox" caption (shown in page title)
+    '#function_tableheader'
+  ]
+  $$(toHide.join()).forEach(el => el.setAttribute('hidden', ''))
 }
 
 function formatRows() {
@@ -45,17 +63,36 @@ function formatRows() {
 }
 
 function addOnChangeHandlers() {
-  message.on('paginationChanged', () => formatRows())
-  message.on('filterChanged', () => {
+  // Filter- and pagination change reloads the page (for some reason), so we need
+  // to reapply formatting/event handlers
+  message.on('paginationChanged', () => {
+    hideUnnecessary()
     formatRows()
+    fixSelection()
     fixFilterSwitch()
+    cloneNewMessageButton()
+
+    fixHeader()
+  })
+  message.on('filterChanged', () => {
+    hideUnnecessary()
+    formatRows()
+    fixSelection()
+    fixFilterSwitch()
+    cloneNewMessageButton()
+
+    fixHeader()
   })
 }
 
 function fixSelection() {
   const rows = $$(`${mailTable} > tbody > tr`)
   const selectAll = $('#chkall') as HTMLInputElement
+  const selectAllProxy = tag`<input type="checkbox" />` as HTMLInputElement
 
+  selectAllProxy.addEventListener('click', e => {
+    selectAll.click()
+  })
   selectAll.addEventListener('change', e => {
     rows.forEach(row => row.setAttribute('data-selected', selectAll.checked.toString()))
   })
@@ -65,6 +102,8 @@ function fixSelection() {
       const cb = e.target as HTMLInputElement
 
       selectAll.checked = selectAll.checked && cb.checked
+      selectAllProxy.checked = selectAll.checked
+
       row.setAttribute('data-selected', cb.checked.toString())
     })
 
@@ -74,14 +113,36 @@ function fixSelection() {
     shouldBeClickable.forEach(cell => cell.setAttribute('onclick', openMailAction))
   }
 
-  // TODO move #chkall to a visible location
+  // Move select all before delete button
+  $('#function_delete0').before(selectAllProxy)
 }
 
 function fixFilterSwitch() {
-  const filterInputs = $$('[id^=upFilter_rblMessageTypes_]')
+  //prettier-ignore
+  const [personal, automated, all] = [...$$('[id^=upFilter_rblMessageTypes_]')] as HTMLInputElement[]
   const submitButton = $('#upFilter_expandedsearchbutton')
+  const target = tag`<div class="filters" />`
+  $('#c_messages_gridMessages_grid_body_div').before(target)
 
-  filterInputs.forEach(inp => {
+  // Reorder filters
+  for (const inp of [all, personal, automated]) {
+    const label = inp.nextElementSibling
+    const inpProxy = tag`
+      <div 
+        tabindex="0" 
+        class="filter filter-${inp.id}" 
+        data-active="${inp.checked}"
+      >
+        <span>${label.textContent}</span>
+      </div>
+    `
+
+    // Forward click to original input
+    inpProxy.addEventListener('click', e => {
+      inp.click()
+    })
+
+    // Refresh mailbox automatically on change
     inp.addEventListener('change', e => {
       if ((e.target as HTMLInputElement).checked) {
         // Notify background script that the next main.aspx request
@@ -90,20 +151,47 @@ function fixFilterSwitch() {
         submitButton.click()
       }
     })
-  })
+
+    target.append(inpProxy)
+  }
+}
+
+function cloneNewMessageButton() {
+  const btn = $('#upFunctionCommand_lbtn_new').cloneNode(true) as HTMLElement
+  const deleteBtn = $('#function_delete0')
+
+  btn.classList.add('nt-button', 'primary')
+  deleteBtn.classList.add('nt-button', 'secondary')
+
+  deleteBtn.before(btn)
+}
+
+// TODO execute on window resize
+// Should be initialized after filters' transformation
+function fixHeader() {
+  const filters = $('.filters')
+  const rowContainer = $(mailTableContainer)
+
+  const rf = filters.getBoundingClientRect()
+  rowContainer.style.height = window.innerHeight - (rf.y + rf.height) - 40 + 'px';
 }
 
 const fixMailbox: NextModule = {
   name: 'fixMailbox',
   shouldInitialize() {
-    return isPageGroup(NeptunPageGroup.mail)
+    return isPage(NeptunPage.inbox)
   },
   initialize() {
-    // transformSearchBar()
-    // formatRows()
+    hideUnnecessary()
     addOnChangeHandlers()
+
+    formatRows()
     fixSelection()
     fixFilterSwitch()
+    cloneNewMessageButton()
+
+    // Need to wait for layout
+    setTimeout(() => fixHeader())
   },
 }
 

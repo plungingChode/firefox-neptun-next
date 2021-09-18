@@ -8,6 +8,8 @@ enum NeptunPage {
   /** Tárgyfelvétel */ addSubjects,
   /** Vizsgajelentkezés */ modifyExams,
   /** Felvett vizsgák */ signedExams,
+  /** Beérkező üzenetek */ inbox,
+  /** Elküldött üzenetek */ outbox
 }
 
 const neptunPages: Record<NeptunPage, RegExp> = {
@@ -18,6 +20,8 @@ const neptunPages: Record<NeptunPage, RegExp> = {
   [NeptunPage.addSubjects]: /0303|h_addsubjects/,
   [NeptunPage.modifyExams]: /0401|h_exams/,
   [NeptunPage.signedExams]: /0402|h_signedexams/,
+  [NeptunPage.inbox]: /main.aspx$|inbox$/,
+  [NeptunPage.outbox]: /outbox$/
 }
 
 function isPage(page: NeptunPage, url = window.location.href) {
