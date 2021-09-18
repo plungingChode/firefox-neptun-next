@@ -8,7 +8,7 @@ $shadow-color: var(--neptun-major-accent-fill-contrast);
   padding: 0.75rem 1.25rem;
   
   border-radius: 4px;
-  box-shadow: 1.5px 1.5px 0px 1.5px $shadow-color;
+  box-shadow: 2px 2px 0 0 $shadow-color;
   cursor: pointer;
 
   // Reset <button>
@@ -20,7 +20,7 @@ $shadow-color: var(--neptun-major-accent-fill-contrast);
   transition: transform 0.1s ease, box-shadow 0.1s ease;
 
   &:active {
-    transform: translate(2px, 2px);
+    transform: translate(1px, 1px);
     box-shadow: 0px 0px 0px 0px $shadow-color;
   }
 
@@ -41,7 +41,6 @@ $shadow-color: var(--neptun-major-accent-fill-contrast);
     color: $minor-accent-text;
     background-color: inherit;
     border-color: currentColor;
-    box-shadow: 2px 2px 0 0 $shadow-color;
 
     &:hover {
       color: $minor-accent-text-hover;
@@ -50,7 +49,6 @@ $shadow-color: var(--neptun-major-accent-fill-contrast);
     &:active {
       color: $minor-accent-text-active;
       background-color: $minor-accent-fill-active;
-      box-shadow: 0px 0px 0px 0px $shadow-color;
     }
   }
 
