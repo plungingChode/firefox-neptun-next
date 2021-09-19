@@ -90,6 +90,9 @@ function addOnChangeHandlers() {
     fixHeader()
     fixSearchBar()
   })
+  message.on('modalOpened', () => {
+    moveModalIntoViewport()
+  });
 }
 
 function fixSelection() {
@@ -116,8 +119,11 @@ function fixSelection() {
 
     // Make entire row (sender, subject, date) clickable
     const openMailAction = row.$('span.link')?.getAttribute('onclick')
-    const shouldBeClickable = row.$$('td:nth-child(5),td:last-child')
-    shouldBeClickable.forEach(cell => cell.setAttribute('onclick', openMailAction))
+    const shouldBeClickable = row.$$('[role=gridcell]')
+    shouldBeClickable.forEach(cell => { 
+      cell.setAttribute('onclick', openMailAction)
+      cell.addEventListener('click', () => message.send('prepareModalOpen'))
+    })
   }
 
   // Move select all before delete button
@@ -202,6 +208,12 @@ function fixSearchBar() {
 
   $('.grid_topfunctionpanel').after(newContainer)
   newContainer.$('div').append(dropdown, textbox, submitBtn)
+}
+
+function moveModalIntoViewport() {
+  const modal = $('.ui-dialog')
+  modal.style.top = '3rem'
+  modal.style.position = 'absolute'
 }
 
 const fixMailbox: NextModule = {

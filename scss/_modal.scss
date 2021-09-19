@@ -1,0 +1,35 @@
+// Modal overlay
+.ui-widget-overlay.ui-front {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #ccca;
+  width: 100%;
+  height: 100%;
+}
+
+// Title bar
+.ui-dialog-titlebar {
+
+}
+// Title bar buttons
+.ui-dialog-titlebar-buttonpane {
+  position: static !important;
+}
+
+// Content
+.ui-dialog-content {
+
+}
+
+// Resize handles (inactive)
+.ui-resizable-handle {
+  display: none;
+}
+
+// --------- Mailbox --------- 
+// Navigation buttons
+#upFunction_c_messages_upModal_upmodalextenderReadMessage_ctl02_Readmessage1_UpdatePanel1_upNavigations {
+
+}
+

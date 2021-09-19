@@ -185,6 +185,7 @@ td[class^='pagerlink_np_'] {
     // Subject
     & > td:nth-child(7) {
       flex-shrink: 1;
+      width: 100%;
       padding-right: 1rem;
 
       @include ellipsis-overflow();
@@ -192,8 +193,9 @@ td[class^='pagerlink_np_'] {
 
     // Date cell
     & > td:last-child {
-      max-width: 7.5rem;
+      flex-shrink: 0;
       flex-basis: 7.5rem;
+      max-width: 7.5rem;
 
       text-align: right;
       margin-left: auto;

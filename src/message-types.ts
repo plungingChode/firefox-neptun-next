@@ -11,11 +11,13 @@ type ToContentMessage =
   | 'beforePaginationChange' 
   | 'filterChanged'
   | 'pageLoaded'
+  | 'modalOpened'
 
 // prettier-ignore
 type ToBackgroundMessage = 
   | 'prepareFilterChange'
   | 'prepareKeepAlive'
+  | 'prepareModalOpen'
 
 export type {
   MessageListener,

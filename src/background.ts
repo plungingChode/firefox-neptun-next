@@ -14,11 +14,12 @@ const webRequestActions: Record<Action, RegExp> = {
 function isAction(action: Action, url: string) {
   return webRequestActions[action].test(url)
 }
-
+ 
 // prettier-ignore
 type PreparableRequest = 
   | 'filterChange'
   | 'ignored'
+  | 'modalOpen'
 
 let nextRequest: PreparableRequest | null = null
 let ignoreUrl: string | null = null
@@ -26,6 +27,7 @@ let ignoreUrl: string | null = null
 // TODO what about concurrent requests?
 message.on('prepareFilterChange', () => (nextRequest = 'filterChange'))
 message.on('prepareKeepAlive', () => (nextRequest = 'ignored'))
+message.on('prepareModalOpen', () => (nextRequest = 'modalOpen'))
 
 // Intercept web requests from all domains, filter for Neptun later (since they
 // have a strange subdomain naming scheme)
@@ -37,7 +39,6 @@ browser.webRequest.onCompleted.addListener(({method, url, tabId}) => {
   }
 
   if (url === ignoreUrl) {
-    console.log('ignored', url)
     return
   }
   if (isAction('paginationChange', url)) {
@@ -45,6 +46,10 @@ browser.webRequest.onCompleted.addListener(({method, url, tabId}) => {
   }
   if (nextRequest === 'filterChange' && isAction('generic', url)) {
     message.send(tabId, 'filterChanged')
+  }
+  if (nextRequest === 'modalOpen' && isAction('generic', url)) {
+    message.send(tabId, 'modalOpened')
+    nextRequest = null
   }
   nextRequest = null
 }, filter)
@@ -54,7 +59,6 @@ browser.webRequest.onBeforeRequest.addListener(({url, tabId}) => {
     return
   }
   if (nextRequest === 'ignored') {
-    console.log('will be ignored', url)
     ignoreUrl = url
     nextRequest = null
     return
