@@ -1,8 +1,6 @@
-// The login page layout is beyond saving, so this module transforms it into
-// something easier to work with and style.
+import type {NextModule} from 'lib/moduleBase'
 
 import 'lib/dom'
-import type {NextModule} from 'lib/moduleBase'
 import {isPage, NeptunPage} from 'lib/navigation';
 
 /** Remove unnecessary parts (parens, exact time, whitespace) of a date string. */
@@ -252,6 +250,11 @@ function parseLoginForm(table: Element) {
   }
 }
 
+/**
+ * Transform the login page into an easier to parse format.
+ * 
+ * Applies to: login page
+ */
 const transformLogin: NextModule = {
   name: 'transformLogin',
   shouldInitialize() {

@@ -5,7 +5,7 @@ import {isNeptunDomain} from 'lib/navigation'
 import transformLogin from 'modules/transformLogin'
 import infiniteSession from 'modules/infiniteSession'
 import transformHeader from 'modules/transformHeader'
-import fixMailbox from 'modules/fixMailbox'
+import transformInbox from 'modules/transformInbox'
 import loadingIndicator from 'modules/loadingIndicator'
 import setPageTitle from 'modules/setPageTitle'
 
@@ -21,7 +21,7 @@ const modules: NextModule[] = [
   transformHeader,
 
   // Specific pages
-  fixMailbox
+  transformInbox
 ]
 
 ;(() => {

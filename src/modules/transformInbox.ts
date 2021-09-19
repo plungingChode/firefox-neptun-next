@@ -216,7 +216,12 @@ function moveModalIntoViewport() {
   modal.style.position = 'absolute'
 }
 
-const fixMailbox: NextModule = {
+/**
+ * Transform inbox into a simple/easier to use format.
+ * 
+ * Applies to: inbox page
+ */
+const transformInbox: NextModule = {
   name: 'fixMailbox',
   shouldInitialize() {
     return isPage(NeptunPage.inbox)
@@ -238,4 +243,4 @@ const fixMailbox: NextModule = {
   },
 }
 
-export default fixMailbox
+export default transformInbox

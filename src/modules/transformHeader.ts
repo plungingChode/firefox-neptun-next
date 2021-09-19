@@ -16,10 +16,7 @@ async function replaceHeader() {
 
   const userName = $('#upTraining_topname').textContent
   const logoutCaption = $('#lbtnQuit').textContent
-
-  // Specific element required to avoid errors
-  const logoutTimer = $('#upTraining_lblRemainingTime')
-
+  
   // TODO change #upTraining_topname to something sensible (currently needed
   // for compatibility)
   const header = html`
@@ -180,6 +177,13 @@ function addMailMenu() {
   menuRoot.addEventListener('mouseleave', () => ($('#mb1_Mail > ul').style.display = 'none'))
 }
 
+/**
+ * Transform the page header and main menu into an easier to
+ * navigate format. Add various shortcuts to commonly used functions.
+ * Create a new mailbox menu based on the left-side widget links.
+ * 
+ * Applies to: all authenticated pages  
+ */
 const transformHeaders: NextModule = {
   name: 'transformHeaders',
   shouldInitialize() {

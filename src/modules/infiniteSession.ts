@@ -36,6 +36,11 @@ function clearTimers() {
   `)
 }
 
+/**
+ * Keep user logged in for as long as the page is open.
+ * 
+ * Applies to: all authenticated pages
+ */
 const infiniteSession: NextModule = {
   name: 'infiniteSession',
   shouldInitialize() {

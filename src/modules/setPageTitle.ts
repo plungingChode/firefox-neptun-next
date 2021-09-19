@@ -17,6 +17,8 @@ function repeatSetTitle() {
 
 /**
  * Add current page subtitle to document title.
+ * 
+ * Applies to: all authenticated pages.
  */
 const setPageTitle: NextModule = {
   name: 'setPageTitle',

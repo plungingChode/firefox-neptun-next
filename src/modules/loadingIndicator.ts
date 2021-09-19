@@ -17,6 +17,12 @@ function registerHooks(el: HTMLProgressElement) {
   })
 }
 
+/**
+ * Add a custom loading indicator. Used instead of the various default
+ * GIF spinners.
+ * 
+ * Applies to: all authenticated pages
+ */
 const loadingIndicator: NextModule = {
   name: 'loadingIndicator',
   shouldInitialize() {
