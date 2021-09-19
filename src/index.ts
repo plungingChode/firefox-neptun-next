@@ -8,6 +8,7 @@ import infiniteSession from 'modules/infiniteSession'
 import transformHeader from 'modules/transformHeader'
 import fixMailbox from 'modules/fixMailbox'
 import loadingIndicator from 'modules/loadingIndicator'
+import setPageTitle from 'modules/setPageTitle'
 
 // prettier-ignore
 const modules: NextModule[] = [
@@ -18,6 +19,7 @@ const modules: NextModule[] = [
   transformLogin,
 
   // All authenticated pages
+  setPageTitle,
   loadingIndicator,
   infiniteSession,
   transformHeader,
