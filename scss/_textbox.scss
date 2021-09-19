@@ -1,0 +1,14 @@
+@use 'variables' as *;
+
+$shadow-color: var(--neptun-major-accent-fill-contrast);
+
+.nt-textbox {
+  border: 0.1rem solid $minor-accent-text;
+  padding: 0.25rem 0.5rem;
+
+  border-radius: 4px;
+  box-shadow: 2px 2px 0 0 $shadow-color;
+
+  font-family: inherit;
+  font-size: inherit;
+}
