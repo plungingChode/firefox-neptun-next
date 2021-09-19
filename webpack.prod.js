@@ -1,5 +1,6 @@
 const path = require('path')
 const ManifestPlugin = require('./extension-manifest-plugin')
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
 const cssLoader = {loader: 'css-loader', options: {url: false}}
 
@@ -33,5 +34,8 @@ module.exports = {
       },
     ],
   },
-  plugins: [new ManifestPlugin(targetPath)],
+  plugins: [
+    new ManifestPlugin(targetPath),
+    new CssMinimizerPlugin()
+  ],
 }
