@@ -7,14 +7,14 @@ declare global {
      */
     $<K extends keyof HTMLElementTagNameMap>(selectors: K): HTMLElementTagNameMap[K] | null
     $<K extends keyof SVGElementTagNameMap>(selectors: K): SVGElementTagNameMap[K] | null
-    $<E extends Element = Element>(selectors: string): E | null
+    $<E extends HTMLElement = HTMLElement>(selectors: string): E | null
 
     /**
      * Returns all element descendants of node that match selectors.
      */
     $$<K extends keyof HTMLElementTagNameMap>(selectors: K): NodeListOf<HTMLElementTagNameMap[K]>;
     $$<K extends keyof SVGElementTagNameMap>(selectors: K): NodeListOf<SVGElementTagNameMap[K]>;
-    $$<E extends Element = Element>(selectors: string): NodeListOf<E>;
+    $$<E extends HTMLElement = HTMLElement>(selectors: string): NodeListOf<E>;
   }
 
   // Add $, $$ query selector shorthands to Document
