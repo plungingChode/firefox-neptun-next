@@ -10,16 +10,19 @@ function keepAlive() {
   const timeout = threeMinutes + upToFiveMinutes()
 
   // Notify background to ignore next request
-  message.send('prepareKeepAlive')
+  // message.send('prepareKeepAlive')
 
   // Get random page for proxy (most likely targets)
-  const path = location.href.substring(0, location.href.lastIndexOf('/'))
-  const pages = ['inbox', '0303', '0401', '0203', '0206']
-  const randomPage = pages[Math.floor(Math.random() * pages.length)]
+  // const path = location.href.substring(0, location.href.lastIndexOf('/'))
+  // const pages = ['inbox', '0303', '0401', '0203', '0206']
+  // const randomPage = pages[Math.floor(Math.random() * pages.length)]
 
   // Use local jQuery ajax to send the correct headers and cookies
-  evalHere(`$.ajax({ url: '${path}/main.aspx?ismenclick=true&ctrl=${randomPage}'})`)
+  // evalHere(`$.ajax({ url: '${path}/main.aspx?ismenclick=true&ctrl=${randomPage}'})`)
 
+  // Use builtin keepalive request
+  evalHere(`$.ajax({type: 'Post', url: 'service.asmx/StayAlive'})`)
+  
   window.setTimeout(keepAlive, timeout)
 }
 
