@@ -24,11 +24,6 @@
   display: none !important;
 }
 
-// Always display search fields
-#c_messages_gridMessages_searchtable {
-  display: unset !important;
-}
-
 // Make tables fill up the available space
 .main_function_table,
 .function_table,
@@ -40,15 +35,52 @@
   padding: 0 10vw;
 }
 
+#function_table_body {
+  padding: 0;
+}
+
 // Pagination
-.pagerlink,
+.grid_pagerpanel td {
+  display: none;
+}
+// .grid_pagerpanel td[class^='pagerlink'] {
+//   display: inline-block;
+//   margin-right: 0.25rem;
+//   padding: 0.5rem 1rem;
+//   border-radius: 2rem;
+//   background-color: $neutral-fill;
+//   cursor: pointer;
+
+//   &:hover {
+//     background-color: $neutral-fill-hover;
+//   }
+//   &:active {
+//     background-color: $neutral-fill-active;
+//   }
+// }
+// Active page
 .pagerlink_disabled {
+  color: $major-accent-text;
+  background-color: $major-accent-fill !important;
+  font-weight: 500;
+}
+td[class^='pagerlink_np_'] {
+  position: relative;
   display: inline-block;
+  height: 2rem;
+  width: 2rem;
   margin-right: 0.25rem;
-  padding: 0.5rem 1rem;
   border-radius: 2rem;
   background-color: $neutral-fill;
   cursor: pointer;
+
+  &::before {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Material Icons';
+  }
 
   &:hover {
     background-color: $neutral-fill-hover;
@@ -57,16 +89,31 @@
     background-color: $neutral-fill-active;
   }
 }
-.pagerlink_disabled {
-  // Active page
-  color: $major-accent-text;
-  background-color: $major-accent-fill !important;
-  font-weight: 500;
+// Jump to first page
+.pagerlink_np_lmax::before {
+  content: 'skip_previous';
+  font-size: 125%;
+}
+// Jump to previous page
+.pagerlink_np_l::before {
+  content: 'arrow_left';
+  font-size: 150%;
+}
+// Jump to next page
+.pagerlink_np_r::before {
+  content: 'arrow_right';
+  font-size: 150%;
+}
+// Jump to last page
+.pagerlink_np_rmax::before {
+  content: 'skip_next';
+  font-size: 125%;
 }
 
 // Pager actions
 .grid_pagertable {
-  border-bottom: 1px solid rgba(100, 121, 143, 0.122);
+  border-bottom: 1px solid $neutral-line;
+  padding-bottom: 0.5rem;
 }
 .grid_pagertable .functionitem {
   display: flex;
@@ -83,8 +130,11 @@
   }
 }
 
-
 // Inbox
+#inbox-search-bar [class*=' nt-input-'] {
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+}
 #c_messages_gridMessages_grid_body_div {
   overflow-y: scroll;
 }
@@ -154,7 +204,7 @@
 // Inbox filters
 .filters {
   display: flex;
-  border-bottom: 1px solid rgba(100, 121, 143, 0.122);
+  border-bottom: 1px solid $neutral-line;
 }
 .filter {
   display: flex;

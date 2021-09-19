@@ -40,9 +40,14 @@ function formatRows() {
   const locale = getPageLanguage()
 
   for (const row of rows) {
+    const unreadImg = row.$('td:nth-child(6) > img') as HTMLImageElement
+    if (!unreadImg) {
+      // No results found, cancel formatting
+      return
+    }
+    
     // Set unread flags
     // Unread icon is an image named "message_unread.png"
-    const unreadImg = row.$('td:nth-child(6) > img') as HTMLImageElement
     if (unreadImg.src.indexOf('unread') !== -1) {
       row.setAttribute('data-unread', '')
     }
@@ -73,6 +78,7 @@ function addOnChangeHandlers() {
     cloneNewMessageButton()
 
     fixHeader()
+    fixSearchBar()
   })
   message.on('filterChanged', () => {
     hideUnnecessary()
@@ -82,6 +88,7 @@ function addOnChangeHandlers() {
     cloneNewMessageButton()
 
     fixHeader()
+    fixSearchBar()
   })
 }
 
@@ -98,7 +105,7 @@ function fixSelection() {
   })
 
   for (const row of rows) {
-    row.$('input[type=checkbox]').addEventListener('change', e => {
+    row.$('input[type=checkbox]')?.addEventListener('change', e => {
       const cb = e.target as HTMLInputElement
 
       selectAll.checked = selectAll.checked && cb.checked
@@ -108,7 +115,7 @@ function fixSelection() {
     })
 
     // Make entire row (sender, subject, date) clickable
-    const openMailAction = row.$('span.link').getAttribute('onclick')
+    const openMailAction = row.$('span.link')?.getAttribute('onclick')
     const shouldBeClickable = row.$$('td:nth-child(5),td:last-child')
     shouldBeClickable.forEach(cell => cell.setAttribute('onclick', openMailAction))
   }
@@ -173,7 +180,28 @@ function fixHeader() {
   const rowContainer = $(mailTableContainer)
 
   const rf = filters.getBoundingClientRect()
+
+  // TODO this isn't very exact, why 40?
   rowContainer.style.height = window.innerHeight - (rf.y + rf.height) - 40 + 'px';
+}
+
+function fixSearchBar() {
+  const dropdown = $('#c_messages_gridMessages_searchcolumn')
+  const textbox = $('#c_messages_gridMessages_searchtext')
+  const submitBtn = $('#c_messages_gridMessages_searchsubmit')
+
+  dropdown.classList.add('nt-dropdown', 'secondary', 'nt-input-left')
+  textbox.classList.add('nt-textbox', 'nt-input-middle')
+  submitBtn.classList.add('nt-button', 'secondary', 'nt-input-right')
+
+  const newContainer = tag`
+    <td>
+      <div class="nt-input-row" id="inbox-search-bar"></div>
+    </td>
+  `
+
+  $('.grid_topfunctionpanel').after(newContainer)
+  newContainer.$('div').append(dropdown, textbox, submitBtn)
 }
 
 const fixMailbox: NextModule = {
@@ -187,11 +215,14 @@ const fixMailbox: NextModule = {
 
     formatRows()
     fixSelection()
+    fixSearchBar()
     fixFilterSwitch()
     cloneNewMessageButton()
 
     // Need to wait for layout
     setTimeout(() => fixHeader())
+
+    // TODO add page size dropdown somewhere
   },
 }
 
