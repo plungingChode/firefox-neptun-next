@@ -7,21 +7,22 @@ const upToFiveMinutes = () => Math.random() * 300_000 // random variance
 
 // TODO test if this actually works
 function keepAlive() {
-  const timeout = threeMinutes + upToFiveMinutes()
+  // const timeout = threeMinutes + upToFiveMinutes()
+  const timeout = 60_000;
 
   // Notify background to ignore next request
-  // message.send('prepareKeepAlive')
+  message.send('prepareKeepAlive')
 
   // Get random page for proxy (most likely targets)
-  // const path = location.href.substring(0, location.href.lastIndexOf('/'))
-  // const pages = ['inbox', '0303', '0401', '0203', '0206']
-  // const randomPage = pages[Math.floor(Math.random() * pages.length)]
+  const path = location.href.substring(0, location.href.lastIndexOf('/'))
+  const pages = ['inbox', '0303', '0401', '0203', '0206']
+  const randomPage = pages[Math.floor(Math.random() * pages.length)]
 
   // Use local jQuery ajax to send the correct headers and cookies
-  // evalHere(`$.ajax({ url: '${path}/main.aspx?ismenclick=true&ctrl=${randomPage}'})`)
+  evalHere(`$.ajax({ url: '${path}/main.aspx?ismenclick=true&ctrl=${randomPage}'})`)
 
-  // Use builtin keepalive request
-  evalHere(`$.ajax({type: 'Post', url: 'service.asmx/StayAlive'})`)
+  // Use builtin keepalive request (doesn't seem to work)
+  // evalHere(`$.ajax({type: 'Post', url: 'service.asmx/StayAlive'})`)
   
   window.setTimeout(keepAlive, timeout)
 }
