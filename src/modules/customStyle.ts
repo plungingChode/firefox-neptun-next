@@ -1,6 +1,6 @@
-import type {NextModule} from '../moduleBase'
+import type {NextModule} from 'lib/moduleBase'
 
-import 'dom'
+import 'lib/dom'
 import css from '../../scss/index.scss'
 
 const customStyle: NextModule = {

@@ -1,13 +1,13 @@
-import type {NextModule} from './moduleBase'
+import type {NextModule} from 'lib/moduleBase'
 
-import {isNeptunDomain} from './navigation'
+import {isNeptunDomain} from 'lib/navigation'
 
-import customStyle from './modules/customStyle'
-import transformLogin from './modules/transformLogin'
-import infiniteSession from './modules/infiniteSession'
-import transformHeader from './modules/transformHeader'
-import fixMailbox from './modules/fixMailbox'
-import loadingIndicator from './modules/loadingIndicator'
+import customStyle from 'modules/customStyle'
+import transformLogin from 'modules/transformLogin'
+import infiniteSession from 'modules/infiniteSession'
+import transformHeader from 'modules/transformHeader'
+import fixMailbox from 'modules/fixMailbox'
+import loadingIndicator from 'modules/loadingIndicator'
 
 // prettier-ignore
 const modules: NextModule[] = [

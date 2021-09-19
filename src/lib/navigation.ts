@@ -1,4 +1,4 @@
-import 'dom'
+import 'lib/dom'
 
 enum NeptunPage {
   /** Bejelentkezés */ login,

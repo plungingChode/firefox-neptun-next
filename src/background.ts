@@ -1,5 +1,5 @@
-import {isNeptunDomain, isPageGroup, isPage, NeptunPage, NeptunPageGroup} from './navigation'
-import {message} from './message-background'
+import {isNeptunDomain, isPageGroup, isPage, NeptunPage, NeptunPageGroup} from 'lib/navigation'
+import {message} from 'lib/message-background'
 import css from '../scss/index.scss'
 
 // prettier-ignore

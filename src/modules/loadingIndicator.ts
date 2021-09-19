@@ -1,6 +1,6 @@
-import {message} from 'message-content'
-import {NextModule} from 'moduleBase'
-import {isAuthenticated} from 'navigation'
+import {message} from 'lib/message-content'
+import {NextModule} from 'lib/moduleBase'
+import {isAuthenticated} from 'lib/navigation'
 
 function createElement(): HTMLProgressElement {
   const progress = html`<progress id="n-ext-progressbar" hidden />`

@@ -1,6 +1,6 @@
-import 'dom'
-import {NextModule} from 'moduleBase'
-import {isAuthenticated, isPageGroup, NeptunPageGroup} from '../navigation'
+import 'lib/dom'
+import {NextModule} from 'lib/moduleBase'
+import {isAuthenticated, isPageGroup, NeptunPageGroup} from 'lib/navigation'
 
 /**
  * Remove unnecessary elements from the default header and replace it with a

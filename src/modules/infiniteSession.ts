@@ -1,14 +1,13 @@
-import {NextModule} from 'moduleBase'
-import {isAuthenticated} from 'navigation'
-import {message} from 'message-content'
+import {NextModule} from 'lib/moduleBase'
+import {isAuthenticated} from 'lib/navigation'
+import {message} from 'lib/message-content'
 
 const threeMinutes = 180_000 // minimum wait time
 const upToFiveMinutes = () => Math.random() * 300_000 // random variance
 
 // TODO test if this actually works
 function keepAlive() {
-  // const timeout = threeMinutes + upToFiveMinutes()
-  const timeout = 60_000;
+  const timeout = threeMinutes + upToFiveMinutes()
 
   // Notify background to ignore next request
   message.send('prepareKeepAlive')

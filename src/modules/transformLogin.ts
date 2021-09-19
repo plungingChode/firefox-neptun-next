@@ -1,9 +1,9 @@
 // The login page layout is beyond saving, so this module transforms it into
 // something easier to work with and style.
 
-import type {NextModule} from '../moduleBase'
-import 'dom'
-import {isPage, NeptunPage} from '../navigation';
+import 'lib/dom'
+import type {NextModule} from 'lib/moduleBase'
+import {isPage, NeptunPage} from 'lib/navigation';
 
 /** Remove unnecessary parts (parens, exact time, whitespace) of a date string. */
 function formatDateString(date: string): string {
