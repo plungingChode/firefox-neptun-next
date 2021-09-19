@@ -2,7 +2,6 @@ import type {NextModule} from 'lib/moduleBase'
 
 import {isNeptunDomain} from 'lib/navigation'
 
-import customStyle from 'modules/customStyle'
 import transformLogin from 'modules/transformLogin'
 import infiniteSession from 'modules/infiniteSession'
 import transformHeader from 'modules/transformHeader'
@@ -12,9 +11,6 @@ import setPageTitle from 'modules/setPageTitle'
 
 // prettier-ignore
 const modules: NextModule[] = [
-  // Single global stylesheet
-  customStyle,
-
   // Login page
   transformLogin,
 
