@@ -1,6 +1,8 @@
 import {isNeptunDomain, isPageGroup, isPage, NeptunPage, NeptunPageGroup} from 'lib/navigation'
-import {message} from 'lib/message-background'
+import {message} from 'lib/backgroundMessenger'
 import css from '../scss/index.scss'
+
+const debug = console.log
 
 // prettier-ignore
 type Action = 

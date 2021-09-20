@@ -1,6 +1,6 @@
 import {NextModule} from 'lib/moduleBase'
 import {isAuthenticated} from 'lib/navigation'
-import {message} from 'lib/message-content'
+import {message} from 'lib/contentMessenger'
 
 const threeMinutes = 180_000 // minimum wait time
 const upToFiveMinutes = () => Math.random() * 300_000 // random variance

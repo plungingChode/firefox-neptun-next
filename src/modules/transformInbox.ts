@@ -2,7 +2,7 @@ import type {NeptunLanguage} from 'lib/navigation'
 
 import {NextModule} from 'lib/moduleBase'
 import {getPageLanguage, isPage, NeptunPage, isPageGroup, NeptunPageGroup} from 'lib/navigation'
-import {message} from 'lib/message-content'
+import {message} from 'lib/contentMessenger'
 import {DateTime} from 'luxon'
 
 const mailTable = '#c_messages_gridMessages_bodytable'

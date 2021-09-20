@@ -1,4 +1,4 @@
-import {message} from 'lib/message-content'
+import {message} from 'lib/contentMessenger'
 import {NextModule} from 'lib/moduleBase'
 import {isAuthenticated} from 'lib/navigation'
 

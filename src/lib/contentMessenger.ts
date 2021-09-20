@@ -1,14 +1,14 @@
 import type {
-  FilteredListener,
   MessageListener,
-  ToBackgroundMessage,
+  FilteredListener,
   ToContentMessage,
-} from './message-types'
+  ToBackgroundMessage,
+} from './messageTypes'
 
-const listeners: Partial<Record<ToBackgroundMessage, FilteredListener[]>> = {}
+const listeners: Partial<Record<ToContentMessage, FilteredListener[]>> = {}
 
 const message = {
-  on(msg: ToBackgroundMessage, listener: MessageListener) {
+  on(msg: ToContentMessage, listener: MessageListener) {
     const registered: FilteredListener = {
       listener,
       filtered: message => message === msg.toString() && listener(),
@@ -21,7 +21,7 @@ const message = {
     listeners[msg].push(registered)
   },
 
-  off(msg: ToBackgroundMessage, listener: MessageListener | null = null) {
+  off(msg: ToContentMessage, listener: MessageListener | null = null) {
     if (!listener) {
       // Clear all listeners for `msg`
       for (const flt of listeners[msg]) {
@@ -42,10 +42,10 @@ const message = {
     return true
   },
 
-  send(tabId: number, msg: ToContentMessage) {
-    browser.tabs.sendMessage(tabId, msg.toString())
+  send(msg: ToBackgroundMessage) {
+    browser.runtime.sendMessage(msg.toString())
   },
 }
 
 export {message}
-export * from './message-types'
+export * from './messageTypes'
