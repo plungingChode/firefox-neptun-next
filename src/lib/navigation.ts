@@ -1,6 +1,11 @@
 import 'lib/dom'
 
 enum NeptunPage {
+  /** Saját adatok > Személyes adatok */ personalData,
+  /** Saját adatok > Képzettségek */ personalEducation,
+  /** Saját adatok > Elérhetőségek */ personalContact,
+  /** Saját adatok > Beállítások */ personalSettings,
+  /** Saját adatok > Adatmódosítások */ personalDataModifications,
   /** Bejelentkezés */ login,
   /** Órarend */ timetable,
   /** Leckekönyv */ markbook,
@@ -13,6 +18,11 @@ enum NeptunPage {
 }
 
 const neptunPages: Record<NeptunPage, RegExp> = {
+  [NeptunPage.personalData]: /0101/i,
+  [NeptunPage.personalEducation]: /0102/i,
+  [NeptunPage.personalContact]: /0103/i,
+  [NeptunPage.personalSettings]: /0104/i,
+  [NeptunPage.personalDataModifications]: /0106/i,
   [NeptunPage.login]: /\/login/i,
   [NeptunPage.timetable]: /0203|c_common_timetable/,
   [NeptunPage.markbook]: /0206|h_markbook/,
