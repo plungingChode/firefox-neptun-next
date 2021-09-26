@@ -147,9 +147,8 @@ function createLinkItem({href, content}: LinkItemData) {
  * Transform the main login form into a more manageable state.
  */
 function transformLoginForm(container: Element) {
-  const loginForm = $('.login_left_side > table')
   const {moduleType, serverName, langSelect, userName, password, loginButton} =
-    parseLoginForm(loginForm)
+    parseLoginForm()
 
   // prettier-ignore
   const langButtons = langSelect.options
@@ -182,16 +181,12 @@ function transformLoginForm(container: Element) {
       <div class="login-fields">
         <div class="lang-select">${langButtons}</div>
         <div class="login-field username">
-          <label for="${userName.field}">${userName.caption}</label>
-          <input type="text" id="${userName.field}" name="${userName.field}" />
+          <label for="${userName.field.id}">${userName.caption}</label>
+          <div id="user-placeholder"></div>
         </div>
         <div class="login-field password">
-          <label for="${password.field}">${password.caption}</label>
-          <input
-            type="password"
-            id="${password.field}"
-            name="${password.field}"
-          />
+          <label for="${password.field.id}">${password.caption}</label>
+          <div id="pwd-placeholder"></div>
         </div>
         <input
           type="button"
@@ -207,11 +202,16 @@ function transformLoginForm(container: Element) {
   container.append(...loginEl)
   $('.login-field.username').append(userName.validator)
   $('.login-field.username').append(userName.validatorState)
+  $('#user-placeholder').replaceWith(userName.field)
+  $('#pwd-placeholder').replaceWith(password.field)
+
+  userName.field.removeAttribute('style')
+  password.field.removeAttribute('style')
 }
 
-function parseLoginForm(table: Element) {
+function parseLoginForm() {
   const langSelectOptions = [].slice
-    .call(table.$$('#td_Zaszlok input'))
+    .call($$('#td_Zaszlok input'))
     .map((input: HTMLInputElement) => ({
       caption: input.title,
       action: input.getAttribute('onclick').replace(/"/g, "'"),
@@ -219,8 +219,8 @@ function parseLoginForm(table: Element) {
     }))
 
   return {
-    moduleType: table.$('#lblModuleType').textContent,
-    serverName: table.$('#lblServerName').textContent,
+    moduleType: $('#lblModuleType').textContent,
+    serverName: $('#lblServerName').textContent,
     langSelect: {
       // caption: table
       //   .find('#td_Zaszlok')
@@ -231,21 +231,21 @@ function parseLoginForm(table: Element) {
       options: langSelectOptions,
     },
     userName: {
-      field: 'user',
-      caption: table.$('#lblUsername').textContent.replace(/:/, ''),
+      field: $('#user'),
+      caption: $('#lblUsername').textContent.replace(/:/, ''),
 
       // Need to grab the exact element (these represent some kind of
       // component for the server)
-      validator: table.$('#loginValidator'),
-      validatorState: table.$('#vcelogin_ClientState'),
+      validator: $('#loginValidator'),
+      validatorState: $('#vcelogin_ClientState'),
     },
     password: {
-      field: 'pwd',
-      caption: table.$('#lblPwd').textContent.replace(/:/, ''),
+      field: $('#pwd'),
+      caption: $('#lblPwd').textContent.replace(/:/, ''),
     },
     loginButton: {
-      caption: table.$('#btnSubmit').getAttribute('value'),
-      action: table.$('#btnSubmit').getAttribute('onclick'),
+      caption: $('#btnSubmit').getAttribute('value'),
+      action: $('#btnSubmit').getAttribute('onclick'),
     },
   }
 }
@@ -259,6 +259,7 @@ const transformLogin: NextModule = {
   name: 'transformLogin',
   shouldInitialize() {
     return isPage(NeptunPage.login);
+    // return false;
   },
   initialize() {
     const container = $('.login_center')
