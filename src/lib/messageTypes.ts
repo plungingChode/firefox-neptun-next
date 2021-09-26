@@ -12,12 +12,14 @@ type ToContentMessage =
   | 'filterChanged'
   | 'pageLoaded'
   | 'modalOpened'
+  | 'ajaxTabChanged'
 
 // prettier-ignore
 type ToBackgroundMessage = 
   | 'prepareFilterChange'
   | 'prepareKeepAlive'
   | 'prepareModalOpen'
+  | 'prepareAjaxTabChange'
 
 export type {
   MessageListener,

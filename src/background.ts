@@ -1,3 +1,5 @@
+import type {ToContentMessage} from 'lib/backgroundMessenger'
+
 import {isNeptunDomain, isPageGroup, isPage, NeptunPage, NeptunPageGroup} from 'lib/navigation'
 import {message} from 'lib/backgroundMessenger'
 import css from '../scss/index.scss'
@@ -16,12 +18,13 @@ const webRequestActions: Record<Action, RegExp> = {
 function isAction(action: Action, url: string) {
   return webRequestActions[action].test(url)
 }
- 
+
 // prettier-ignore
 type PreparableRequest = 
   | 'filterChange'
   | 'ignored'
   | 'modalOpen'
+  | 'tabChange'
 
 let nextRequest: PreparableRequest | null = null
 let ignoreUrl: string | null = null
@@ -30,6 +33,7 @@ let ignoreUrl: string | null = null
 message.on('prepareFilterChange', () => (nextRequest = 'filterChange'))
 message.on('prepareKeepAlive', () => (nextRequest = 'ignored'))
 message.on('prepareModalOpen', () => (nextRequest = 'modalOpen'))
+message.on('prepareAjaxTabChange', () => (nextRequest = 'tabChange'))
 
 // Intercept web requests from all domains, filter for Neptun later (since they
 // have a strange subdomain naming scheme)
@@ -46,13 +50,28 @@ browser.webRequest.onCompleted.addListener(({method, url, tabId}) => {
   if (isAction('paginationChange', url)) {
     message.send(tabId, 'paginationChanged')
   }
-  if (nextRequest === 'filterChange' && isAction('generic', url)) {
-    message.send(tabId, 'filterChanged')
+  if (isAction('generic', url)) {
+    let reply: ToContentMessage | null = null
+
+    switch (nextRequest) {
+      case 'filterChange':
+        reply = 'filterChanged'
+        break
+      case 'modalOpen':
+        reply = 'modalOpened'
+        break
+      case 'tabChange':
+        reply = 'ajaxTabChanged'
+        break
+    }
+
+    if (reply) {
+      message.send(tabId, reply)
+      nextRequest = null
+      return
+    }
   }
-  if (nextRequest === 'modalOpen' && isAction('generic', url)) {
-    message.send(tabId, 'modalOpened')
-    nextRequest = null
-  }
+
   nextRequest = null
 }, filter)
 
