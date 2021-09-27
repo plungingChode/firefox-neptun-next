@@ -3,3 +3,7 @@ build/
 
 # Personal config file
 webext-config.js
+
+# Compiled SCSS
+design/**/*.css
+design/**/*.css.map

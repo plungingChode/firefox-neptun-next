@@ -12,5 +12,15 @@ cd firefox-neptun-next
 # TODO why?
 cp webext-config.example.js webext-config.js
 npm ci
-npm run dev
+npm run dev:build
+npm run dev:open # másik terminálban
+```
+
+## Design
+
+```sh
+git clone https://github.com/plungingChode/firefox-neptun-next
+cd firefox-neptun-next
+npm ci
+npm run design
 ```
